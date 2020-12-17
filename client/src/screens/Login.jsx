@@ -1,62 +1,61 @@
-import React, {useContext,useState} from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
-import loginpage from '../images/loginpage.jpg';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import {
-  Link
-} from 'react-router-dom';
+import React, { useContext, useState } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Paper from "@material-ui/core/Paper";
+import Box from "@material-ui/core/Box";
+import loginpage from "../images/loginpage.jpg";
+import Grid from "@material-ui/core/Grid";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import { Link } from "react-router-dom";
 
-import {UserContext} from '../userContext'
+import { UserContext } from "../userContext";
 import { useHistory } from "react-router-dom";
-import axios from 'axios'
+import axios from "axios";
 
 function Copyright() {
   return (
     <Typography color="textprimary" align="center">
-      Copyright © 
-      <Link color="primary" to='/'>
+      Copyright ©
+      <Link color="primary" to="/">
         SAMSUNG
-      </Link>{'  '}
+      </Link>
+      {"  "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100vh',
+    height: "100vh",
   },
   image: {
     backgroundImage: `url(${loginpage})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    height: '100vh',
-    width: '767px',
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    height: "100vh",
+    width: "767px",
   },
   paper: {
     margin: theme.spacing(8, 4),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(2),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', 
+    width: "100%",
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -64,27 +63,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
- export function Login() {
+export function Login() {
   const classes = useStyles();
-  const history=useHistory();
-  const [email,setEmail] = useState('');
-const [password,setPassword] = useState(''); 
-const { dispatch } = useContext(UserContext);
-const Submit = (e)=> {
-  e.preventDefault();
- axios
- .post('/Login', {
-   email:email,
-   password:password
- })
- .then((response) => {
-  dispatch({type:'addUser', payload:{name:response.data.name,id:response.data.id}});
-  history.push('/')
- })
- .catch((error) => {
-   window.alert("Incorrect Details");
- });
- };
+  const history = useHistory();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { dispatch } = useContext(UserContext);
+  const Submit = (e) => {
+    e.preventDefault();
+    axios
+      .post("/api/Login", {
+        email: email,
+        password: password,
+      })
+      .then((response) => {
+        dispatch({
+          type: "addUser",
+          payload: { name: response.data.name, id: response.data.id },
+        });
+        history.push("/");
+      })
+      .catch((error) => {
+        window.alert("Incorrect Details");
+      });
+  };
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -107,9 +109,9 @@ const Submit = (e)=> {
               label="Email Address"
               name="email"
               value={email}
-               onChange={(e) => {
-                 setEmail(e.target.value);
-               }}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
             />
             <TextField
               variant="outlined"
@@ -146,7 +148,7 @@ const Submit = (e)=> {
                 </Link>
               </Grid>
               <Grid item>
-               <Link to='/SignUp'>Don't have an account? Sign Up</Link>
+                <Link to="/SignUp">Don't have an account? Sign Up</Link>
               </Grid>
             </Grid>
             <Box mt={5}>
