@@ -1,18 +1,18 @@
-import React, { useContext, useState } from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import { Link } from 'react-router-dom';
-import { UserContext } from '../userContext';
-import axios from 'axios'
-import { useHistory } from "react-router-dom"
+import React, { useContext, useState } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import { Link } from "react-router-dom";
+import { UserContext } from "../userContext";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 function Copyright() {
   return (
@@ -20,9 +20,9 @@ function Copyright() {
       Copyright ©
       <Link color="inherit" to="/">
         SAMSUNG
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
@@ -30,16 +30,16 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(4),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%',
+    width: "100%",
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -49,29 +49,32 @@ const useStyles = makeStyles((theme) => ({
 }));
 const SignUp = () => {
   const classes = useStyles();
-  const history=useHistory();
+  const history = useHistory();
   const { dispatch } = useContext(UserContext);
-  const [userName, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [phonenumber, setPhonenumber] = useState('');
+  const [userName, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phonenumber, setPhonenumber] = useState("");
 
   const Submit = (e) => {
     e.preventDefault();
     axios
-    .post('/Register', {
-    name:userName,
-    email,
-    password,
-    phonenumber,
-    })
-    .then((response) => {
-       dispatch({type:'addUser', payload:{name:response.data.data.name,id:response.data.userid}});
-       history.push('/')
-    })
-    .catch((error) => {
-      return error.response;
-    });
+      .post("/api/Register", {
+        name: userName,
+        email,
+        password,
+        phonenumber,
+      })
+      .then((response) => {
+        dispatch({
+          type: "addUser",
+          payload: { name: response.data.data.name, id: response.data.userid },
+        });
+        history.push("/");
+      })
+      .catch((error) => {
+        return error.response;
+      });
   };
   return (
     <Container component="main" maxWidth="xs">

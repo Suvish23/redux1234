@@ -1,64 +1,64 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { makeStyles } from '@material-ui/styles';
-import { CardContent, Grid} from '@material-ui/core';
-import CartItemCard from '../components/CartItemCard';
-import Card from '@material-ui/core/Card';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Button from '@material-ui/core/Button';
-import { CartContext } from '../CartContext';
-import {UserContext} from '../userContext'
+import React, { useEffect, useState, useContext } from "react";
+import { makeStyles } from "@material-ui/styles";
+import { CardContent, Grid } from "@material-ui/core";
+import CartItemCard from "../components/CartItemCard";
+import Card from "@material-ui/core/Card";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import Button from "@material-ui/core/Button";
+import { CartContext } from "../CartContext";
+import { UserContext } from "../userContext";
 import { useHistory } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 
 const useStyles = makeStyles(() => ({
   head: {
-    color: 'black',
-    fontSize: '48px',
+    color: "black",
+    fontSize: "48px",
 
-    position: 'fixed',
-    top: '15vh',
-    left: '40vw',
+    position: "fixed",
+    top: "15vh",
+    left: "40vw",
   },
   cart: {
-    width: '100%',
-    paddingBottom: '10px',
+    width: "100%",
+    paddingBottom: "10px",
   },
   subtotal: {
-    position: 'absolute',
-    bottom: '15vh',
-    right: '15vw',
-    paddingBottom: '10px',
+    position: "absolute",
+    bottom: "15vh",
+    right: "15vw",
+    paddingBottom: "10px",
   },
   root: {
-    display: 'grid',
-    height: '100vh',
+    display: "grid",
+    height: "100vh",
   },
   footer: {
-    direction: 'row',
-    justify: 'center',
-    alignContent: 'flex-end',
+    direction: "row",
+    justify: "center",
+    alignContent: "flex-end",
   },
 }));
 
 function Cart() {
   const [CartItems, setItem] = useState([]);
   useEffect(() => {
-    axios.get('/getProducts').then((res) => {
-      console.log('Inside use effect', res.data);
+    axios.get("/api/getProducts").then((res) => {
+      console.log("Inside use effect", res.data);
       setItem(res.data.data);
     });
   }, []);
   const classes = useStyles();
-  const { cartstore }= useContext(CartContext);
-  const history = useHistory()
-  const { userstore }= useContext(UserContext);
+  const { cartstore } = useContext(CartContext);
+  const history = useHistory();
+  const { userstore } = useContext(UserContext);
   const storeid = cartstore.map(({ id }) => id);
-  console.log(storeid)
-  const totalPrice = cartstore.reduce((acc , curr) => acc + curr.subtitle , 0);
-const onclickCheckouthandler =() =>{
-  history.push('/Order')
-}
+  console.log(storeid);
+  const totalPrice = cartstore.reduce((acc, curr) => acc + curr.subtitle, 0);
+  const onclickCheckouthandler = () => {
+    history.push("/Order");
+  };
   return (
     <Grid container direction="column" className={classes.root}>
       <Grid item>
@@ -96,7 +96,9 @@ const onclickCheckouthandler =() =>{
           <Grid item container justify="flex-end" className={classes.subtotal}>
             <Card>
               <CardContent>
-            <li>SubTotal = {'Rs'} {totalPrice}</li>
+                <li>
+                  SubTotal = {"Rs"} {totalPrice}
+                </li>
               </CardContent>
             </Card>
           </Grid>
@@ -104,9 +106,15 @@ const onclickCheckouthandler =() =>{
             item
             container
             justify="flex-end"
-            style={{ position: 'absolute', bottom: '10vh', right: '15vw' }}
+            style={{ position: "absolute", bottom: "10vh", right: "15vw" }}
           >
-            <Button variant="contained" color="primary" size="medium" disabled={userstore.user==='' || cartstore.length === 0 } onClick={onclickCheckouthandler}>
+            <Button
+              variant="contained"
+              color="primary"
+              size="medium"
+              disabled={userstore.user === "" || cartstore.length === 0}
+              onClick={onclickCheckouthandler}
+            >
               Checkout
             </Button>
           </Grid>
@@ -120,13 +128,3 @@ const onclickCheckouthandler =() =>{
   );
 }
 export default Cart;
-
-
-
-
-
-
-
-
-
-
